@@ -7,4 +7,4 @@ export const routes = [
   { path: '/covidAnalysis', name: 'covidAnalysis', component: CovidAnalysis },
   { path: '/covidDataSearch', name: 'covidDataSearch', component: CovidDataSearch },
   { path: '*', redirect: { name: 'home' } }
-];
+]
