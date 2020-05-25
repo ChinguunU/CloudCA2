@@ -12,7 +12,6 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(VueResource)
 // Install BootstrapVue
 Vue.use(BootstrapVue)
-// Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
 
 Vue.use(VueGoogleCharts)
@@ -28,7 +27,7 @@ const router = new VueRouter({
   mode: 'history'
 })
 
-
+// eslint-disable-next-line no-new
 new Vue({
   el: '#app',
   router,

@@ -1,6 +1,8 @@
 <template>
-  <div id="home">
-    <h1>Home</h1>
+
+  <div id='home' class='main'>
+    <br>
+    <h1>Welcome to our Covid-19 awareness page</h1>
   </div>
 </template>
 
@@ -14,3 +16,11 @@ export default {
   }
 }
 </script>
+
+<style>
+.main {
+  display: inline;
+  position: absolute;
+  right: 500px;
+}
+</style>
