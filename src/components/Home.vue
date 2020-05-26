@@ -2,7 +2,7 @@
 
   <div id='home' class='main'>
     <br>
-    <h1>Welcome to our Covid-19 awareness page</h1>
+    <h1>Welcome!!! to our Covid-19 awareness page</h1>
   </div>
 </template>
 
