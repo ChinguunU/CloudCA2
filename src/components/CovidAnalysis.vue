@@ -24,8 +24,8 @@
 
 <script>
 
-const urlCovidApi = 'https://corona-api.com/countries/'
-const chartLabels = [['Date', 'New cases', 'Deaths', 'Recoveries']]
+const urlCovidApiGateway = 'https://4prxbmd4q6.execute-api.us-east-1.amazonaws.com/development/'
+const chartLabels = [['Date', 'Rate of Growth', 'Expected Growth Tommorow', 'Rate of Deaths', 'Expected Deaths Tommorow']]
 
 export default {
   name: 'covidAnalysis',
@@ -36,17 +36,13 @@ export default {
         country: 'AU'
       },
       flagUrl: '',
-      covidUrl: urlCovidApi,
+      covidUrl: urlCovidApiGateway,
       chart: {
         data: chartLabels,
         options: {
           title: '',
           width: 800,
           height: 500,
-          vAxes: {
-            // Adds title to axis.
-            0: {title: 'Number of cases'}
-          },
           hAxis: {
             0: {title: 'Date of cases'}
           }
@@ -64,15 +60,33 @@ export default {
       this.flagUrl = url
     },
     populateChart () {
-      this.chart.data = chartLabels
+      while (this.chart.data.length > 1) {
+        this.chart.data.pop()
+      }
       this.attachFlag()
-      this.chart.options.title = `Covid-19(New cases, Deaths, Recoveries) of ${this.query.country}`
-      this.chart.data = chartLabels
-      this.covidUrl = urlCovidApi
+      this.chart.options.title = `Covid-19(Growth analysis) of ${this.query.country}`
+
+      this.covidUrl = urlCovidApiGateway
       this.covidUrl += this.query.country
+      this.covidUrl += '/all?date='
+
+      let dateOb = new Date()
+
+      // current date
+      // adjust 0 before single digit date
+      let date = ('0' + dateOb.getDate()).slice(-2)
+
+      // current month
+      let month = ('0' + (dateOb.getMonth() + 1)).slice(-2)
+
+      // current year
+      let year = dateOb.getFullYear()
+
+      let curDate = date + '-' + month + '-' + year
+      this.covidUrl += curDate
 
       this.$http.get(this.covidUrl).then(response => {
-        var array = response.body.data.timeline
+        var array = response.body
         if (array.length < 1) {
           this.dataAvailable = false
         } else {
@@ -80,8 +94,8 @@ export default {
         }
 
         for (var i = array.length - 1; i >= 0; --i) {
-          this.chart.data.push([array[i].date, array[i].new_confirmed,
-            array[i].new_deaths, array[i].new_recovered])
+          this.chart.data.push([array[i].date, array[i].rateOfGrowth,
+            array[i].nextDayPrediction, array[i].rateOfGrowthDeaths, array[i].nextDayPredictionDeaths])
         }
       }, response => {
         console.log('Error')

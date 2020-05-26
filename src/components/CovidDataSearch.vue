@@ -64,10 +64,12 @@ export default {
       this.flagUrl = url
     },
     populateChart () {
-      this.chart.data = chartLabels
+      while (this.chart.data.length > 1) {
+        this.chart.data.pop()
+      }
       this.attachFlag()
       this.chart.options.title = `Covid-19(New cases, Deaths, Recoveries) of ${this.query.country}`
-      this.chart.data = chartLabels
+
       this.covidUrl = urlCovidApi
       this.covidUrl += this.query.country
 
@@ -128,4 +130,3 @@ export default {
 }
 
 </style>
-
